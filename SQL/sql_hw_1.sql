@@ -300,3 +300,85 @@ set
 			inventory
 		where
 			film.film_id = inventory.film_id);
+            
+#7h
+
+select 
+	category.name as genre, SUM(payment.amount) as gross_revenue 
+from 
+	category
+join 
+	film_category 
+on 
+	(category.category_id = film_category.category_id)
+join 
+	inventory 
+on
+	(film_category.film_id = inventory.film_id)
+join 
+	rental  
+on
+	(inventory.inventory_id = rental.inventory_id)
+join 
+	payment 
+on 
+	(rental.rental_id = payment.rental_id)
+group by 
+	category.name 
+order by 
+	gross_revenue  
+limit 
+	5;
+
+
+#8a
+
+
+create view 
+	genre_revenue 
+as
+select 
+	category.name as genre, SUM(payment.amount) as gross_revenue 
+from 
+	category
+join 
+	film_category 
+on 
+	(category.category_id = film_category.category_id)
+join 
+	inventory 
+on 
+	(film_category.film_id = inventory.film_id)
+join 
+	rental 
+on 
+	(inventory.inventory_id = rental.inventory_id)
+join 
+	payment 
+on 
+	(rental.rental_id = payment.rental_id)
+group by 
+	category.name 
+order by
+	gross_revenue
+limit 
+	5;
+
+
+#8b
+
+select * 
+from 
+	genre_revenue;
+
+
+#8c
+
+
+drop view genre_revenue;
+
+
+
+
+
+
