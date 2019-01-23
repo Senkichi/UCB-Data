@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="index.html">Home</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Visualizations <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="hum.html">Latitude vs Humidity</a></li>
+              <li><a href="wind.html">Latitude vs Wind Speed</a></li>
+              <li><a href="temp.html">Latitude vs Max Temperature</a></li>
+              <li><a href="cloud.html">Latitude vs Cloudiness</a></li>
+
+            </ul>
+          </li>
+          <li><a href="comp.html">Comparison</a></li>
+          <li><a href="data.html">Data</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6"> <br>
+                <h4> Summary </h4>
+            </div>
+
+            <div class="col-md-4"> <br>
+                <h3> Visualizations </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"> <br>
+                <div class="pull-left">
+                    <img src="Resources/assets/images/Fig1.png" alt="City Latitude vs Max Temperature" width="300" height="175">
+                </div>
+
+                <div class="text-left">
+                    <p>
+                        The purpose of this project was to determine the effects of Latitude on weather.
+                        Using data from the OpenWeatherMap API we assembled a dataset of over 500 cities to
+                        complete this analysis.
+                    </p>
+                    <p>
+                        After assembling the dataset, Matplotlib was used to plot various aspects of weather
+                        vs. latitude. Dependent variables included temperature, cloudiness, wind-speed and humidity.
+                    </p>
+                    <p>
+                       This site provides the source data and visualizations created as part of the analysis, as well
+                        as explanations and descriptions of any trends and correlations that were discovered.
+                    </p>
+
+                </div>
+
+            </div>
+            <div class="col-md-3"> <br>
+                <div class="pull-right">
+                    <a href="temp.html"><img src="Resources/assets/images/Fig1.png" alt="City Latitude vs Max Temperature" width="100%" height="100%"></a>
+                    <a href="hum.html"><img src="Resources/assets/images/Fig2.png" alt="City Latitude vs Humidity" width="100%" height="100%>"></a>
+                </div>
+            </div>
+
+            <div class="col-md-3"> <br>
+                <div class="pull-right">
+                    <a href="cloud.html"><img src="Resources/assets/images/Fig3.png" alt="City Latitude vs Cloudiness" width="100%" height="100%"></a>
+                    <a href="wind.html"><img src="Resources/assets/images/Fig4.png" alt="City Latitude vs Wind Speed" width="100%" height="100%"></a>
+                </div>
+            </div>
+    </div>
+
+</body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</html>
