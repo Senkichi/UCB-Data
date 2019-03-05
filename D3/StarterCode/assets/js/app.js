@@ -17,63 +17,52 @@ var chosenYAxis = 'healthcare'
 
 // Select body, append SVG area to it, and set its dimensions
 var svg = d3.select("#scatter")
-  .append("svg")
-  .attr("width", svgWidth)
-  .attr("height", svgHeight);
+    .classed("svg-container", true)
+    .append("svg")
+
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox","0 0 " + svgWidth + " " + svgHeight)
+
+    .classed("svg-content-responsive", true);
 
 // Append a group area, then set its margins
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-function xScale(data, chosenXAxis) {
+function xScale(data) {
 
   var xLinearScale = d3.scaleLinear()
     .range([0, width])
-    .domain([d3.min(data, d => d[chosenXAxis]) * 0.8,
-      d3.max(data, d => d[chosenXAxis]) * 1.2])
+    .domain([d3.min(data, d => d.poverty) * 0.8,
+      d3.max(data, d => d.poverty) * 1.2])
 
   return xLinearScale
 }
 
-function yScale(data, chosenYAxis) {
+function yScale(data) {
 
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d[chosenYAxis])])
+    .domain([d3.min(data, d => d.healthcare) * 0.8,
+     d3.max(data, d => d.healthcare) * 1.2])
     .range([height, 0]);
 
   return yLinearScale
 }
 
-function renderAxes(newXScale, xAxis) {
-  var bottomAxis = d3.axisBottom(newXScale);
 
-  xAxis.transition()
-    .duration(1000)
-    .call(bottomAxis);
 
-  return xAxis;
-}
-
-function renderCircles(circlesGroup, newXScale, chosenXaxis) {
-
-  circlesGroup.transition()
-    .duration(1000)
-    .attr("cx", d => newXScale(d[chosenXAxis]));
-
-  return circlesGroup;
-}
 
 d3.csv("assets/data/data.csv")
-  .then(function(data, chosenXAxis, chosenYAxis) {
-
+  .then(function(data) {
+    console.log(data)
   // parse data
   data.forEach(function(data) {
     data.poverty = +data.poverty;
     data.povertyMoe = +data.povertyMoe;
     data.age = +data.age;
     data.ageMoe = +data.ageMoe;
-    data.Income = +data.Income;
-    data.IncomeMoe = +data.IncomeMoe;
+    data.income = +data.income;
+    data.incomeMoe = +data.incomeMoe;
     data.healthcare = +data.healthcare;
     data.healthcareLow = +data.healthcareLow;
     data.healthcareHigh = +data.healthcareHigh;
@@ -83,34 +72,38 @@ d3.csv("assets/data/data.csv")
     data.smokesHigh = +data.smokesHigh;
   });
 
-  // xLinearScale function above csv import
-  var xLinearScale = xScale(data, chosenXAxis);
+
+  var xLinearScale = d3.scaleLinear()
+    .range([0, width])
+    .domain([d3.min(data, d => d.poverty) * 0.8,
+      d3.max(data, d => d.poverty) * 1.2])
 
   // Create y scale function
-  var yLinearScale = yScale(data, chosenYAxis)
+  var yLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d.healthcare) * 0.8,
+      d3.max(data, d => d.healthcare) * 1.2])
+    .range([height, 0]);
 
   // Create initial axis functions
   var bottomAxis = d3.axisBottom(xLinearScale);
   var leftAxis = d3.axisLeft(yLinearScale);
 
-  // append x axis
-  var xAxis = chartGroup.append("g")
-    .classed("x-axis", true)
+  chartGroup.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(bottomAxis);
 
-  // append y axis
   chartGroup.append("g")
     .call(leftAxis);
+
 
   // append initial circles
   var circlesGroup = chartGroup.selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
-    .attr("cx", d => xLinearScale(d[chosenXAxis]))
-    .attr("cy", d => yLinearScale(d[chosenYAxis]))
-    .attr("r", 20)
+    .attr("cx", d => xLinearScale(d.poverty))
+    .attr("cy", d => yLinearScale(d.healthcare))
+    .attr("r", 5)
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
@@ -118,8 +111,8 @@ d3.csv("assets/data/data.csv")
 	  .data(data)
     .enter()
     .append("text")
-    .attr("x", d => xLinearScale(d[chosenXAxis]))
-    .attr("y", d => yLinearScale(d[chosenYAxis]))
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare))
 	     .text(d => d.abbr)
     .attr("font-family", "sans-serif")
     .attr("font-size", "8px")
@@ -144,5 +137,3 @@ d3.csv("assets/data/data.csv")
     .text('Lacks Healthcare (%)');
 
   })
-
-  // append y axis
